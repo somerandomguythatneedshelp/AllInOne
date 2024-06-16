@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllInOne", "AllInOne.vcxproj", "{A1DCFEA0-CEBF-4556-B762-CCD7209E2ECF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1DCFEA0-CEBF-4556-B762-CCD7209E2ECF}.Release|x64.ActiveCfg = Release|x64
+		{A1DCFEA0-CEBF-4556-B762-CCD7209E2ECF}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1F39A026-5851-4510-AEA6-20E24FFB4F9A}
+	EndGlobalSection
+EndGlobal
