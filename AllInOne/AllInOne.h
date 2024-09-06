@@ -15,6 +15,10 @@
 #include <ctime>
 #include <sstream>
 #include <filesystem>
+#include "clipboardxx.hpp"
+#include <algorithm>
+#include "bakkesmod/wrappers/GuiManagerWrapper.h"
+#include "IMGUI/imgui_internal.h"
 
 #define FONT_SIZE 32
 #define FONT_NAME "Bourgeois"
@@ -65,6 +69,8 @@ class AllInOne: public BakkesMod::Plugin::BakkesModPlugin, public BakkesMod::Plu
 	virtual bool IsActiveOverlay() override;
 	virtual void OnOpen() override;
 	virtual void OnClose() override;
+
+	std::string formatFloat(float value, int precision);
 
 	unsigned int total = 0;
 
@@ -182,6 +188,31 @@ public:
 	bool timezoneChanged = false;
 
 	/*  i actually dont know what to name this add on, 5 seconds of thinking later its called Presets */
+
+	 //FOV HEIGHT ANGLE STIFFNESS TRANSITIONSPEED DISTANCE SWIVELSPEED
+	struct CP_CameraSettings {
+		std::string name;
+
+		int FOV;
+		int Distance;
+		int Height;
+		int Angle;
+		float Stiffness;
+		float SwivelSpeed;
+		float TransitionSpeed;
+		std::string code;
+	};
+
+	std::vector<CP_CameraSettings> cameras;
+	int oldSelected = 0;
+	int selected = 0;
+	bool settingsChanged = false;
+	int InputNameError = 0;
+	std::string CopiedCode; 
+	std::string CodeName; // these 2 vars are different i swear 
+	std::string PresetName;
+	CP_CameraSettings tempCamera;
+	CP_CameraSettings PlayerCameraSettings;
 	
 	float PresetsDistance;
 	float PresetsFOV;
@@ -190,6 +221,11 @@ public:
 	float PresetsStiffness;
 	float PresetsSwivelSpeed;
 	float PresetsTransitionSpeed;
+
+	bool CreatePresetMenu, EditPresetMenu, RemovePresetMenu;
+
+	std::vector<std::string> ReadPresetsFromFile(const std::filesystem::path& filepath);
+
 
 };
 

@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "AllInOne.h"
-#include "bakkesmod/wrappers/GuiManagerWrapper.h"
-#include <sstream>
 
 BAKKESMOD_PLUGIN(AllInOne, "All In One", plugin_version, PLUGINTYPE_CUSTOM_TRAINING)
 
@@ -53,7 +51,6 @@ void AllInOne::onLoad()
 
 	///
 
-
 	ProfileCameraSettings settings = gameWrapper->GetSettings().GetCameraSettings();
 	PresetsFOV = settings.FOV;
 	PresetsDistance = settings.Distance;
@@ -62,8 +59,6 @@ void AllInOne::onLoad()
 	PresetsStiffness = settings.Stiffness;
 	PresetsSwivelSpeed = settings.SwivelSpeed;
 	PresetsTransitionSpeed = settings.TransitionSpeed;
-
-
 
 	cvarManager->log(std::to_string(PresetsFOV));
 	cvarManager->log(std::to_string(PresetsDistance));
@@ -78,6 +73,12 @@ void AllInOne::onUnload()
 	gameWrapper->UnhookEvent("Function TAGame.GFxHUD_TA.HandleStatTickerMessage");
 	gameWrapper->UnhookEvent("Function GameEvent_Soccar_TA.WaitingForPlayers.BeginState");
 	gameWrapper->UnhookEvent("Function Engine.PlayerInput.InitInputSystem");
+}
+
+std::string AllInOne::formatFloat(float value, int precision) {
+	std::ostringstream out;
+	out << std::fixed << std::setprecision(precision) << value;
+	return out.str();
 }
 
 void AllInOne::onStatTickerMessage(ServerWrapper caller, void* params, std::string eventname)
@@ -561,3 +562,19 @@ void AllInOne::onLoadedFreeplay()
 
 /* ################################################## PRESETS ############################################################ */
 
+std::vector<std::string> AllInOne::ReadPresetsFromFile(const std::filesystem::path& filepath) {
+	std::vector<std::string> presetNames;
+	std::ifstream file(filepath);
+	std::string line;
+
+	while (std::getline(file, line)) {
+		std::istringstream iss(line);
+		std::string firstWord;
+		iss >> firstWord;  // This reads only the first word
+		if (!firstWord.empty()) {
+			presetNames.push_back(firstWord);
+		}
+	}
+
+	return presetNames;
+}
