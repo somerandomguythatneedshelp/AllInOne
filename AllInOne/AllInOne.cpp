@@ -83,36 +83,7 @@ std::string AllInOne::formatFloat(float value, int precision) {
 
 void AllInOne::onStatTickerMessage(ServerWrapper caller, void* params, std::string eventname)
 {
-	//StatTickerParams* pStruct = (StatTickerParams*)params;
-	//PriWrapper receiver = PriWrapper(pStruct->Receiver);
-	//PriWrapper victim = PriWrapper(pStruct->Victim);
-	//StatEventWrapper statEvent = StatEventWrapper(pStruct->StatEvent);
-
-	//if (statEvent.GetEventName() != "Demolish") return;
-	//if (!receiver || !victim) return;
-
-	//PlayerControllerWrapper playerController = gameWrapper->GetPlayerController();
-	//if (!playerController) return;
-
-	//PriWrapper playerPRI = playerController.GetPRI();
-	//if (!playerPRI) return;
-
-	//// Death
-	//if (playerPRI.memory_address == victim.memory_address)
-	//{
-	//	game.addDeath();
-	//	session.addDeath();
-	//	return;
-	//}
-
-	//// Kill
-	//if (playerPRI.memory_address == receiver.memory_address)
-	//{
-	//	game.addKill();
-	//	session.addKill();
-	//	total++;
-	//	return;
-	//}
+	// not needed
 }
 
 void AllInOne::StartGame()
