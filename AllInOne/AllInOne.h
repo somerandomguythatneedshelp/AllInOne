@@ -222,9 +222,28 @@ public:
 	float PresetsSwivelSpeed;
 	float PresetsTransitionSpeed;
 
-	bool CreatePresetMenu, EditPresetMenu, RemovePresetMenu;
 
 	std::vector<std::string> ReadPresetsFromFile(const std::filesystem::path& filepath);
+ // where the camera settings are going to be shown in settings
+
+
+	float aFOV = gameWrapper->GetCamera().GetCameraSettings().FOV;
+	float aDistance = gameWrapper->GetCamera().GetCameraSettings().Distance;
+	float aHeight = gameWrapper->GetCamera().GetCameraSettings().Height;
+	float aPitch = gameWrapper->GetCamera().GetCameraSettings().Pitch;
+	float aStiffness = gameWrapper->GetCamera().GetCameraSettings().Stiffness;
+	float aSwivelSpeed = gameWrapper->GetCamera().GetCameraSettings().SwivelSpeed;
+	float aTransitionSpeed = gameWrapper->GetCamera().GetCameraSettings().TransitionSpeed;
+
+	int FOV = static_cast<int>(aFOV);
+	int Distance = static_cast<int>(aDistance);
+	int Height = static_cast<int>(aHeight);
+	int Angle = static_cast<int>(aPitch);
+	int Stiffness = static_cast<int>(aStiffness);;
+	int SwivelSpeed = static_cast<int>(aSwivelSpeed);
+	int TransitionSpeed = static_cast<int>(aTransitionSpeed);
+
+	void RemovePreset(const std::filesystem::path& filePath, const std::string& presetName);
 
 
 };

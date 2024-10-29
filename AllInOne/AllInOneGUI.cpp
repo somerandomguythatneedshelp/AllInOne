@@ -167,57 +167,198 @@ void AllInOne::RenderSettings() {
 
     }
 
+    //if (ImGui::CollapsingHeader("Presets")) {
+    //    std::fstream inputFile(gameWrapper->GetDataFolder() / "cameras_rlcs.data", std::ios::in | std::ios::out | std::ios::app); // where the camera settings are going to be shown in settings
+
+    //    ImGui::BeginTabBar("Tab");
+
+    //    if (ImGui::BeginTabItem("Camera")) {
+
+
+
+
+    //        if (ImGui::Button("Create a preset")) {
+    //            CreatePresetMenu = true;
+    //            EditPresetMenu = false;
+    //            RemovePresetMenu = false;
+
+    //            // why tf is this here
+
+    //            gameWrapper->Execute([this](GameWrapper* gw) {
+    //                ProfileCameraSettings settings = gameWrapper->GetSettings().GetCameraSettings();
+
+    //                tempCamera.FOV = settings.FOV;
+    //                tempCamera.Distance = settings.Distance;
+    //                tempCamera.Angle = settings.Pitch;
+    //                tempCamera.Height = settings.Height;
+    //                tempCamera.Stiffness = settings.Stiffness;
+    //                tempCamera.SwivelSpeed = settings.SwivelSpeed;
+    //                tempCamera.TransitionSpeed = settings.TransitionSpeed;
+
+    //                });
+    //        }
+
+    //        ImGui::SameLine();
+
+    //        if (ImGui::Button("Edit an existing preset")) {
+    //            CreatePresetMenu = false;
+    //            EditPresetMenu = true;
+    //            RemovePresetMenu = false;
+    //        }
+
+    //        ImGui::SameLine();
+
+    //        if (ImGui::Button("Remove a preset")) {
+    //            CreatePresetMenu = false;
+    //            EditPresetMenu = false;
+    //            RemovePresetMenu = true;
+    //        }
+
+
+
+
+    //        if (CreatePresetMenu) {
+    //            ImGui::Text("Create a Preset");
+
+    //            static ImGuiSliderFlags flags = ImGuiSliderFlags_None;
+
+    //            if (InputNameError == 1) {
+    //                ImGui::TextColored(ImVec4{ 1, 0, 0, 1 }, "Invalid Name:");
+    //                ImGui::SameLine();
+    //                ImGui::TextColored(ImVec4{ 1, 1, 0, 1 }, "( 20 Chars ) [ a-z A-z _.-^! ]");
+    //            }
+
+    //            // sliders that clamp to ingame values
+
+    //            char PresetNameBuffer[256] = "";
+    //            strncpy(PresetNameBuffer, PresetName.c_str(), sizeof(PresetNameBuffer) - 1);
+    //            PresetNameBuffer[sizeof(PresetNameBuffer) - 1] = '\0';
+    //            if (ImGui::InputText("Name", PresetNameBuffer, sizeof(PresetNameBuffer)))
+    //            {
+    //                PresetName = PresetNameBuffer;
+    //                tempCamera.name = PresetName;
+    //            }
+
+    //            // the code below, some might call bad, some might call good, but idk what to call it
+
+
+    //            ImGui::SliderInt("FOV", &tempCamera.FOV, 60, 110);
+    //            if (ImGui::SliderInt("Distance", &tempCamera.Distance, 100, 400)) {
+    //                tempCamera.Distance = (tempCamera.Distance / 10) * 10; // clamp between 10
+    //            }
+    //            if (ImGui::SliderInt("Height", &tempCamera.Height, 40, 200)) {
+    //                tempCamera.Height = (tempCamera.Height / 10) * 10; // clamp between 10
+    //            }
+    //            ImGui::SliderInt("Angle", &tempCamera.Angle, -15, 0);
+    //            if (ImGui::SliderFloat("Stiffness", &tempCamera.Stiffness, 0.0f, 1.0f, "%.2f")) {
+    //                tempCamera.Stiffness = roundf(tempCamera.Stiffness * 20) / 20;
+    //            }
+    //            if (ImGui::SliderFloat("SwivelSpeed", &tempCamera.SwivelSpeed, 1.0f, 10.0f, "%.2f")) {
+    //                tempCamera.SwivelSpeed = roundf(tempCamera.SwivelSpeed * 10.0f) / 10.0f;
+    //            }
+    //            if (ImGui::SliderFloat("TranitionSpeed", &tempCamera.TransitionSpeed, 1.0f, 2.0f, "%.2f")) {
+    //                tempCamera.TransitionSpeed = roundf(tempCamera.TransitionSpeed * 10.0f) / 10.0f;
+    //            }
+
+    //            CopiedCode = tempCamera.name + "#" +
+    //                std::to_string(tempCamera.FOV) + "#" +
+    //                std::to_string(tempCamera.Distance) + "#" +
+    //                std::to_string(tempCamera.Height) + "#" +
+    //                std::to_string(tempCamera.Angle) + "#" +
+    //                formatFloat(tempCamera.Stiffness, 2) + "#" +
+    //                formatFloat(tempCamera.SwivelSpeed, 1) + "#" +
+    //                formatFloat(tempCamera.TransitionSpeed, 1);
+
+    //            CodeName = tempCamera.name + " " +
+    //                std::to_string(tempCamera.FOV) + " " +
+    //                std::to_string(tempCamera.Height) + " " +
+    //                std::to_string(tempCamera.Angle) + " " +
+    //                formatFloat(tempCamera.Stiffness, 2) + " " +
+    //                formatFloat(tempCamera.TransitionSpeed, 1) + " " +
+    //                std::to_string(tempCamera.Distance) + " " +
+    //                formatFloat(tempCamera.SwivelSpeed, 1);
+//
+//
+    //            if (ImGui::Button("Copy code")) { // TODO: finish this horse shit
+    //                clipboardxx::clipboard clipboard;
+
+    //                clipboard << CopiedCode;
+
+    //                std::string paste_text; // wtf is the point of this var, it still works tho so im not complaining
+    //                clipboard >> paste_text;
+    //            }
+
+    //            if (ImGui::Button("Add To Presets")) {
+
+    //                if (!inputFile.is_open()) {
+    //                    std::cerr << "Error opening file!" << std::endl;
+    //                    return; // or handle the error appropriately
+    //                }
+
+    //                // Append new data to the file
+    //                inputFile << CodeName << std::endl;
+
+    //                // Close the file
+    //                inputFile.close();
+
+    //                LOG("New data appended to the file.");
+
+
+    //            }
+    //        }
+
+    //        if (EditPresetMenu) {
+    //            ImGui::Text("Edit Preset Menu");
+
+    //            std::vector<std::string> presets = ReadPresetsFromFile(gameWrapper->GetDataFolder() / "cameras_rlcs.data");
+
+    //            for (const auto& preset : presets) {
+    //                // Extract the first word (preset name)
+    //                std::string presetName = preset.substr(0, preset.find(' '));
+
+    //                // Create a button for each preset
+    //                if (ImGui::Button(presetName.c_str(), ImVec2(150, 0))) {
+    //                    // TODO: Implement edit functionality
+    //                    // This could open a new window or populate fields for editing
+    //                    LOG("Editing preset: {}", presetName);
+    //                }
+    //            }
+
+    //        }
+
+    //        // Remove Preset Menu
+    //        if (RemovePresetMenu) {
+    //            ImGui::Text("Remove Preset Menu");
+    //            // Add code for removing presets
+    //            // ...
+    //        }
+
+    //        ImGui::EndTabItem();
+
+    //    }
+    //    if (ImGui::BeginTabItem("Controls")) {
+    //        ImGui::TextUnformatted("not yet");
+    //        ImGui::EndTabItem();
+    //    }
+    //    if (ImGui::BeginTabItem("Help/Info")) {
+    //        ImGui::TextUnformatted("Here because you dont know how to use this addon? Look below");
+    //        ImGui::Separator();
+    //        ImGui::TextUnformatted("no");
+    //        ImGui::EndTabItem();
+    //    }
+
+    //    ImGui::EndTabBar();
+    //}
+
     if (ImGui::CollapsingHeader("Presets")) {
-        std::fstream inputFile(gameWrapper->GetDataFolder() / "cameras_rlcs.data", std::ios::in | std::ios::out | std::ios::app); // where the camera settings are going to be shown in settings
+		std::fstream inputFile(gameWrapper->GetDataFolder() / "cameras_rlcs.data", std::ios::in | std::ios::out | std::ios::app); // where the camera settings are going to be shown in settings
+        
+        ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+        if (ImGui::BeginTabBar("MyTabBar", tab_bar_flags))
+        {
 
-        ImGui::BeginTabBar("Tab");
-
-        if (ImGui::BeginTabItem("Camera")) {
-
-
-           
-
-            if (ImGui::Button("Create a preset")) {
-                CreatePresetMenu = true;
-                EditPresetMenu = false;
-                RemovePresetMenu = false;
-
-                // why tf is this here
-
-                gameWrapper->Execute([this](GameWrapper* gw) {
-                    ProfileCameraSettings settings = gameWrapper->GetSettings().GetCameraSettings();
-
-                    tempCamera.FOV = settings.FOV;
-                    tempCamera.Distance = settings.Distance;
-                    tempCamera.Angle = settings.Pitch;
-                    tempCamera.Height = settings.Height;
-                    tempCamera.Stiffness = settings.Stiffness;
-                    tempCamera.SwivelSpeed = settings.SwivelSpeed;
-                    tempCamera.TransitionSpeed = settings.TransitionSpeed;
-
-                    });
-            }
-
-            ImGui::SameLine();
-
-            if (ImGui::Button("Edit an existing preset")) {
-                CreatePresetMenu = false;
-                EditPresetMenu = true;
-                RemovePresetMenu = false;
-            }
-
-            ImGui::SameLine();
-
-            if (ImGui::Button("Remove a preset")) {
-                CreatePresetMenu = false;
-                EditPresetMenu = false;
-                RemovePresetMenu = true;
-            }
-
-
-
-
-            if (CreatePresetMenu) {
+            if (ImGui::BeginTabItem("Create a preset"))
+            {
                 ImGui::Text("Create a Preset");
 
                 static ImGuiSliderFlags flags = ImGuiSliderFlags_None;
@@ -239,8 +380,26 @@ void AllInOne::RenderSettings() {
                     tempCamera.name = PresetName;
                 }
 
-                // the code below, some might call bad, some might call good, but idk what to call it
+                // no way this shit works
+                
+                // it does infact work the code below
+                // dont know why or how, but im not complaining
 
+
+                static bool isInitialized = false;
+
+                if (!isInitialized) {
+                    tempCamera.FOV = 60;
+                    tempCamera.Distance = 100;
+                    tempCamera.Height = 40;
+                    tempCamera.Angle = 0;
+                    tempCamera.Stiffness = 0.0f;
+                    tempCamera.SwivelSpeed = 0.0f;
+                    tempCamera.TransitionSpeed = 1.0f;
+                    isInitialized = true;
+                }
+
+                
 
                 ImGui::SliderInt("FOV", &tempCamera.FOV, 60, 110);
                 if (ImGui::SliderInt("Distance", &tempCamera.Distance, 100, 400)) {
@@ -249,131 +408,123 @@ void AllInOne::RenderSettings() {
                 if (ImGui::SliderInt("Height", &tempCamera.Height, 40, 200)) {
                     tempCamera.Height = (tempCamera.Height / 10) * 10; // clamp between 10
                 }
-                ImGui::SliderInt("Angle", &tempCamera.Angle, -15, 0);
+                ImGui::SliderInt("Angle", &Angle, -15, 0);
                 if (ImGui::SliderFloat("Stiffness", &tempCamera.Stiffness, 0.0f, 1.0f, "%.2f")) {
                     tempCamera.Stiffness = roundf(tempCamera.Stiffness * 20) / 20;
                 }
                 if (ImGui::SliderFloat("SwivelSpeed", &tempCamera.SwivelSpeed, 1.0f, 10.0f, "%.2f")) {
-                    tempCamera.SwivelSpeed = roundf(tempCamera.SwivelSpeed * 10.0f) / 10.0f;
+                    tempCamera.SwivelSpeed = roundf(SwivelSpeed * 10.0f) / 10.0f;
                 }
                 if (ImGui::SliderFloat("TranitionSpeed", &tempCamera.TransitionSpeed, 1.0f, 2.0f, "%.2f")) {
                     tempCamera.TransitionSpeed = roundf(tempCamera.TransitionSpeed * 10.0f) / 10.0f;
                 }
 
-                CopiedCode = tempCamera.name + "#" +
-                    std::to_string(tempCamera.FOV) + "#" +
-                    std::to_string(tempCamera.Distance) + "#" +
-                    std::to_string(tempCamera.Height) + "#" +
-                    std::to_string(tempCamera.Angle) + "#" +
-                    formatFloat(tempCamera.Stiffness, 2) + "#" +
-                    formatFloat(tempCamera.SwivelSpeed, 1) + "#" +
-                    formatFloat(tempCamera.TransitionSpeed, 1);
+                if (ImGui::Button("Save")) { // i still dont know why tf this is in a if loop 
 
-                CodeName = tempCamera.name + " " +
-                    std::to_string(tempCamera.FOV) + " " +
-                    std::to_string(tempCamera.Height) + " " +
-                    std::to_string(tempCamera.Angle) + " " +
-                    formatFloat(tempCamera.Stiffness, 2) + " " +
-                    formatFloat(tempCamera.TransitionSpeed, 1) + " " +
-                    std::to_string(tempCamera.Distance) + " " +
-                    formatFloat(tempCamera.SwivelSpeed, 1);
+                    // 12 mg of fent incoming
 
+                    if (PresetName == "") {
+						cvarManager->log("Name is empty");
+                    }
+                    else {
+						cvarManager->log("Name is not empty");
 
-                if (ImGui::Button("Copy code")) { // TODO: finish this horse shit
-                    clipboardxx::clipboard clipboard;
+                        // BRACE YOURSELF FOR THE FENT
 
-                    clipboard << CopiedCode;
+                        CodeName = tempCamera.name + " " +
+                            std::to_string(tempCamera.FOV) + " " +
+                            std::to_string(tempCamera.Height) + " " +
+                            std::to_string(tempCamera.Angle) + " " +
+                            formatFloat(tempCamera.Stiffness, 2) + " " +
+                            formatFloat(tempCamera.TransitionSpeed, 1) + " " +
+                            std::to_string(tempCamera.Distance) + " " +
+                            formatFloat(tempCamera.SwivelSpeed, 1);
 
-                    std::string paste_text; // wtf is the point of this var, it still works tho so im not complaining
-                    clipboard >> paste_text;
-                }
+                        if (!inputFile.is_open()) {
+                            std::cerr << "Error opening file!" << std::endl;
+                            return; // or handle the error appropriately
+                        }
 
-                if (ImGui::Button("Add To Presets")) {
+                        // Append new data to the file
+                        inputFile << CodeName << std::endl;
 
-                    if (!inputFile.is_open()) {
-                        std::cerr << "Error opening file!" << std::endl;
-                        return; // or handle the error appropriately
+                        // Close the file
+                        inputFile.close();
+
+                        LOG("New data appended to the file.");
+                        // ok the fent is injected
+                        // we SHOULD be okay
+
                     }
 
-                    // Append new data to the file
-                    inputFile << CodeName << std::endl;
-
-                    // Close the file
-                    inputFile.close();
-
-                    LOG("New data appended to the file.");
-
-
+                    // shut up game crashes when i use gaurd clauses
                 }
-            }
 
-            if (EditPresetMenu) {
-                ImGui::Text("Edit Preset Menu");
                 
-                std::vector<std::string> presets = ReadPresetsFromFile(gameWrapper->GetDataFolder() / "cameras_rlcs.data");
+
+                
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("Remove a Preset"))
+            {
+				// right how tf am i going to do this
+
+				std::vector<std::string> presets = ReadPresetsFromFile(gameWrapper->GetDataFolder() / "cameras_rlcs.data");
 
                 for (const auto& preset : presets) {
                     // Extract the first word (preset name)
                     std::string presetName = preset.substr(0, preset.find(' '));
+                    // create a for each preset
 
-                    // Create a button for each preset
                     if (ImGui::Button(presetName.c_str(), ImVec2(150, 0))) {
-                        // TODO: Implement edit functionality
-                        // This could open a new window or populate fields for editing
-                        LOG("Editing preset: {}", presetName);
+                        // ok no confirm shit im removing now
+                        RemovePreset(gameWrapper->GetDataFolder() / "cameras_rlcs.data", presetName);
                     }
                 }
 
+                ImGui::EndTabItem();
             }
-
-            // Remove Preset Menu
-            if (RemovePresetMenu) {
-                ImGui::Text("Remove Preset Menu");
-                // Add code for removing presets
-                // ...
-            }
-
-            ImGui::EndTabItem();
-
-        }
-        if (ImGui::BeginTabItem("Controls")) {
-            ImGui::TextUnformatted("not yet");
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("Help/Info")) {
-            ImGui::TextUnformatted("Here because you dont know how to use this addon? Look below");
-            ImGui::Separator();
-            ImGui::TextUnformatted("no");
-            ImGui::EndTabItem();
+            ImGui::EndTabBar();
         }
 
-        ImGui::EndTabBar();
-    }
-
-    // Credit
-
-
-    ImGui::SetCursorPosY(ImGui::GetWindowHeight() - 40);
-    ImGui::Separator();
-    ImGui::TextUnformatted("AllInOne by ");
-    ImGui::SameLine(0, 0);
-    ImGui::TextColored({
-      1,
-      1,
-      1,
-      1
-        }, "IReallyLikeMilk");
-
-    ImGui::Separator();
-
-    ImGui::Text("Socials");
-
-    if (ImGui::Button("Github")) {
-        system("start https://github.com/somerandomguythatneedshelp");
     }
 }
 
+void AllInOne::RemovePreset(const std::filesystem::path& filePath, const std::string& presetName) {
+    // Read the file and store the presets in a vector
+    std::ifstream fileIn(filePath);
+    if (!fileIn.is_open()) {
+        // Handle error if file cannot be opened
+        return;
+    }
+
+    std::vector<std::string> presets;
+    std::string line;
+
+    while (std::getline(fileIn, line)) {
+        // Extract the first word (preset name)
+        std::string currentPresetName = line.substr(0, line.find(' '));
+        // Add to vector if it's not the preset to be removed
+        if (currentPresetName != presetName) {
+            presets.push_back(line);
+        }
+    }
+    fileIn.close();
+
+    // Write the remaining presets back to the file
+    std::ofstream fileOut(filePath, std::ios::trunc);
+    if (!fileOut.is_open()) {
+        // Handle error if file cannot be opened
+        return;
+    }
+
+    for (const auto& preset : presets) {
+        fileOut << preset << std::endl;
+    }
+    fileOut.close();
+}
 void AllInOne::Render() {
+
     // Check enabled
     if (!GetBoolCvar("aio_enabled")) return;
 
