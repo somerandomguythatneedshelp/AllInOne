@@ -106,9 +106,30 @@ void AllInOne::RenderSettings() {
         }
 
         if (ImGui::BeginCombo("Select Timezone", selectedTimezone == -1 ? "Select Timezone" : timezones[selectedTimezone])) {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 4; i++) { // TODO: save my dumbass time and change the number 4 into how ever many more timezones there are
                 if (ImGui::Selectable(timezones[i], selectedTimezone == i)) {
                     selectedTimezone = i;
+
+                    std::ofstream timezoneFile(TIMEZONE_FILE_PATH);
+                    if (timezoneFile.is_open()) {
+                        timezoneFile << selectedTimezone;
+                        timezoneFile.close();
+                        cvarManager->log("Saved timezone: " + std::to_string(selectedTimezone));
+                    }
+                    else {
+                        cvarManager->log("Failed to save timezone to file.");
+                    }
+
+                    /*CVarWrapper E = cvarManager->getCvar("aio_selected_timezone");
+                    if (!E) return;
+
+                    int e = E.getIntValue();
+
+                    i = e;*/
+
+                    // 30/10 00:18 bro just shut up as long as it works
+                    // 30/10 00:19 it does not work
+
                     timezoneChanged = true;
                 }
 
@@ -136,9 +157,12 @@ void AllInOne::RenderSettings() {
                 selectedTimes = BSTtimes;
                 break;
             case 1:
+				selectedTimes = GreenWichtimes;
+				break;
+            case 2:
                 selectedTimes = ESTtimes;
                 break;
-            case 2:
+            case 3:
                 selectedTimes = PSTtimes;
                 break;
             }
@@ -352,7 +376,8 @@ void AllInOne::RenderSettings() {
 
     if (ImGui::CollapsingHeader("Presets")) {
 		std::fstream inputFile(gameWrapper->GetDataFolder() / "cameras_rlcs.data", std::ios::in | std::ios::out | std::ios::app); // where the camera settings are going to be shown in settings
-        
+       
+
         ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
         if (ImGui::BeginTabBar("MyTabBar", tab_bar_flags))
         {
@@ -408,14 +433,14 @@ void AllInOne::RenderSettings() {
                 if (ImGui::SliderInt("Height", &tempCamera.Height, 40, 200)) {
                     tempCamera.Height = (tempCamera.Height / 10) * 10; // clamp between 10
                 }
-                ImGui::SliderInt("Angle", &Angle, -15, 0);
+                ImGui::SliderInt("Angle", &tempCamera.Angle, -15, 0);
                 if (ImGui::SliderFloat("Stiffness", &tempCamera.Stiffness, 0.0f, 1.0f, "%.2f")) {
                     tempCamera.Stiffness = roundf(tempCamera.Stiffness * 20) / 20;
                 }
-                if (ImGui::SliderFloat("SwivelSpeed", &tempCamera.SwivelSpeed, 1.0f, 10.0f, "%.2f")) {
-                    tempCamera.SwivelSpeed = roundf(SwivelSpeed * 10.0f) / 10.0f;
+                if (ImGui::SliderFloat("Swivel Speed", &tempCamera.SwivelSpeed, 1.0f, 10.0f, "%.2f")) {
+                    tempCamera.SwivelSpeed = roundf(tempCamera.SwivelSpeed * 10.0f) / 10.0f;
                 }
-                if (ImGui::SliderFloat("TranitionSpeed", &tempCamera.TransitionSpeed, 1.0f, 2.0f, "%.2f")) {
+                if (ImGui::SliderFloat("Tranition Speed", &tempCamera.TransitionSpeed, 1.0f, 2.0f, "%.2f")) {
                     tempCamera.TransitionSpeed = roundf(tempCamera.TransitionSpeed * 10.0f) / 10.0f;
                 }
 
@@ -461,6 +486,7 @@ void AllInOne::RenderSettings() {
                 }
 
                 
+                
 
                 
                 ImGui::EndTabItem();
@@ -481,6 +507,8 @@ void AllInOne::RenderSettings() {
                         RemovePreset(gameWrapper->GetDataFolder() / "cameras_rlcs.data", presetName);
                     }
                 }
+
+                // lets go i figured it out, shut up copilot
 
                 ImGui::EndTabItem();
             }
@@ -563,7 +591,7 @@ void AllInOne::Render() {
     // Size & Position
     float height = 16.0f + (FONT_SIZE + 4) * (displayGame + displaySession + displayTotal);
     ImGui::SetWindowSize({
-      330,
+      380,
       height
         });
     ImGui::SetWindowPos({
@@ -584,11 +612,14 @@ void AllInOne::Render() {
         selectedTimes = BSTtimes;
         break;
     case 1:
-        selectedTimes = ESTtimes;
+        selectedTimes = GreenWichtimes;
         break;
     case 2:
-        selectedTimes = PSTtimes;
+        selectedTimes = ESTtimes;
         break;
+	case 3:
+		selectedTimes = PSTtimes;
+		break;
     default:
         break;
     }
@@ -642,7 +673,7 @@ void AllInOne::Render() {
             if (displayTotal) ImGui::Text("GAMEMODE");
 
             ImGui::NextColumn();
-            ImGui::SetColumnWidth(1, 100);
+            ImGui::SetColumnWidth(1, 150);
 
             if (displayGame) {
                 RightAlignTextInColumn(nextTime);

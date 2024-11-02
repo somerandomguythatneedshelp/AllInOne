@@ -48,24 +48,22 @@ void AllInOne::onLoad()
 
 	// Start rendering overlay
 	gameWrapper->SetTimeout(std::bind(&AllInOne::StartGame, this), 0.1f);
+	
+	std::ifstream timezoneFile(TIMEZONE_FILE_PATH);
+	if (timezoneFile.is_open()) {
+		timezoneFile >> selectedTimezone;
+		timezoneFile.close();
+		cvarManager->log("Loaded timezone: " + std::to_string(selectedTimezone));
+	}
+	else {
+		cvarManager->log("Failed to load timezone from file.");
+	}
 
-	///
+	CVarWrapper cvar = cvarManager->getCvar("aio_selected_timezone");
+	if (!cvar) return;
 
-	ProfileCameraSettings settings = gameWrapper->GetSettings().GetCameraSettings();
-	PresetsFOV = settings.FOV;
-	PresetsDistance = settings.Distance;
-	PresetsPitch = settings.Pitch;
-	PresetsHeight = settings.Height;
-	PresetsStiffness = settings.Stiffness;
-	PresetsSwivelSpeed = settings.SwivelSpeed;
-	PresetsTransitionSpeed = settings.TransitionSpeed;
+	cvarManager->log(std::to_string(selectedTimezone));
 
-	cvarManager->log(std::to_string(PresetsFOV));
-	cvarManager->log(std::to_string(PresetsDistance));
-	cvarManager->log(std::to_string(PresetsHeight));
-	cvarManager->log(std::to_string(PresetsPitch));
-	cvarManager->log(std::to_string(PresetsSwivelSpeed));
-	cvarManager->log(std::to_string(PresetsTransitionSpeed));
 }
 
 void AllInOne::onUnload()
@@ -312,27 +310,27 @@ void AllInOne::registerCvars()
 	cvarManager->registerCvar("manualLaunchFreeplayEnabled", "1")
 		.bindTo(manualLaunchFreeplayEnabled);
 
-	cvarManager->registerCvar("aio_selected_timezone", "-1", "Selected timezone index");
-
-
+	cvarManager->registerCvar("aio_selected_timezone", "", "Selected timezone index");
 
 }
 
 void AllInOne::Tick() {
 
-	if (timezoneChanged)
+	/*if (timezoneChanged)
 	{
 		CVarWrapper timezoneCvar = cvarManager->getCvar("aio_selected_timezone");
 		if (timezoneCvar)
 		{
 			timezoneCvar.setValue(selectedTimezone);
 		}
-		timezoneChanged = false;
+		timezoneChanged = false;*/
 
 		// If you really need to stop and start rendering, do it here
 		// StopRender();
 		// StartRender();
-	}
+
+		// fuck off chatgpt i aint doing that
+	//}
 }
 
 void AllInOne::hookAll()

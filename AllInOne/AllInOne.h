@@ -175,17 +175,20 @@ public:
 	std::shared_ptr<bool> manualLaunchFreeplayEnabled;
 
 	std::string BSTtimes[5] = { "14:00", "16:00", "18:00", "20:00", "22:00" };
+	std::string GreenWichtimes[5] = { "13:00", "15:00", "17:00", "19:00", "21:00" };
 	std::string ESTtimes[5] = { "15:00", "17:00", "19:00", "21:00", "23:00" };
 	std::string PSTtimes[5] = { "12:00", "14:00", "16:00", "19:00", "21:00" };
 
 	std::string GameModes[5] = { "Extra Modes", "2s Soccar", "3s Soccar", "2s Soccar", "3s Soccar" };
 
-	static constexpr int numTimezones = 3;
-	bool timezoneSelection[numTimezones] = { false, false, false };
+	static constexpr int numTimezones = 4;
+	bool timezoneSelection[numTimezones] = { false, false, false, false };
 
-	int selectedTimezone = -1;
-	const char* timezones[3] = { "BST", "EST", "PST" };
+	int selectedTimezone;
+	const char* timezones[4] = { "BST", "GMT", "EST", "PST" };
 	bool timezoneChanged = false;
+
+	std::unique_ptr<CVarWrapper> timezoneCvar;
 
 	/*  i actually dont know what to name this add on, 5 seconds of thinking later its called Presets */
 
@@ -244,6 +247,8 @@ public:
 	int TransitionSpeed = static_cast<int>(aTransitionSpeed);
 
 	void RemovePreset(const std::filesystem::path& filePath, const std::string& presetName);
+
+	const std::filesystem::path TIMEZONE_FILE_PATH = gameWrapper->GetDataFolder() / "AllInOne";
 
 
 };
