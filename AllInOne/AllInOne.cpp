@@ -1,3 +1,5 @@
+// if you are seeing this, thank you for reading :)
+
 #include "pch.h"
 #include "AllInOne.h"
 

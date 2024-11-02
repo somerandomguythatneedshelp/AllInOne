@@ -444,6 +444,20 @@ void AllInOne::RenderSettings() {
                     tempCamera.TransitionSpeed = roundf(tempCamera.TransitionSpeed * 10.0f) / 10.0f;
                 }
 
+                bool Indicator = false;
+
+                if (PresetName != "") {
+					Indicator = true;
+                }
+
+                if (!Indicator) {
+					ImGui::Text("Name is empty");
+                }
+
+				// the code above will not get me in 
+                // a FAANG company, but it does work
+
+
                 if (ImGui::Button("Save")) { // i still dont know why tf this is in a if loop 
 
                     // 12 mg of fent incoming
@@ -452,7 +466,8 @@ void AllInOne::RenderSettings() {
 						cvarManager->log("Name is empty");
                     }
                     else {
-						cvarManager->log("Name is not empty");
+
+                        cvarManager->log("Name is not empty");
 
                         // BRACE YOURSELF FOR THE FENT
 
@@ -481,14 +496,8 @@ void AllInOne::RenderSettings() {
                         // we SHOULD be okay
 
                     }
-
                     // shut up game crashes when i use gaurd clauses
                 }
-
-                
-                
-
-                
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("Remove a Preset"))
@@ -498,7 +507,7 @@ void AllInOne::RenderSettings() {
 				std::vector<std::string> presets = ReadPresetsFromFile(gameWrapper->GetDataFolder() / "cameras_rlcs.data");
 
                 for (const auto& preset : presets) {
-                    // Extract the first word (preset name)
+					// first word is the preset name
                     std::string presetName = preset.substr(0, preset.find(' '));
                     // create a for each preset
 
@@ -522,7 +531,7 @@ void AllInOne::RemovePreset(const std::filesystem::path& filePath, const std::st
     // Read the file and store the presets in a vector
     std::ifstream fileIn(filePath);
     if (!fileIn.is_open()) {
-        // Handle error if file cannot be opened
+        // very good error handling
         return;
     }
 
@@ -530,16 +539,16 @@ void AllInOne::RemovePreset(const std::filesystem::path& filePath, const std::st
     std::string line;
 
     while (std::getline(fileIn, line)) {
-        // Extract the first word (preset name)
+        // first word is the preset name
         std::string currentPresetName = line.substr(0, line.find(' '));
-        // Add to vector if it's not the preset to be removed
+        // so it looks like its brute forcing a list
         if (currentPresetName != presetName) {
             presets.push_back(line);
         }
     }
     fileIn.close();
 
-    // Write the remaining presets back to the file
+	// add presets from presets vector to the file
     std::ofstream fileOut(filePath, std::ios::trunc);
     if (!fileOut.is_open()) {
         // Handle error if file cannot be opened
@@ -550,6 +559,12 @@ void AllInOne::RemovePreset(const std::filesystem::path& filePath, const std::st
         fileOut << preset << std::endl;
     }
     fileOut.close();
+
+	// explaination: it reads the file, adds every preset name
+    // (1st word) to a vector, then find the one that needs to
+    // be removed, remove the full line, then write the vector
+    // (remainging presets) to the file
+
 }
 void AllInOne::Render() {
 
