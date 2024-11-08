@@ -15,7 +15,6 @@
 #include <ctime>
 #include <sstream>
 #include <filesystem>
-#include "clipboardxx.hpp"
 #include <algorithm>
 #include "bakkesmod/wrappers/GuiManagerWrapper.h"
 #include "IMGUI/imgui_internal.h"
@@ -210,7 +209,6 @@ public:
 	int oldSelected = 0;
 	int selected = 0;
 	bool settingsChanged = false;
-	int InputNameError = 0;
 	std::string CopiedCode; 
 	std::string CodeName; // these 2 vars are different i swear 
 	std::string PresetName;
@@ -248,7 +246,10 @@ public:
 
 	void RemovePreset(const std::filesystem::path& filePath, const std::string& presetName);
 
-	const std::filesystem::path TIMEZONE_FILE_PATH = gameWrapper->GetDataFolder() / "AllInOne";
+	const std::filesystem::path TIMEZONE_FILE_PATH = gameWrapper->GetDataFolder() / "AllInOne"; // bakkesmod reviewer -- this is correct i want a file with no extention to be created in the data folder, please add a txt format if it is needed
+
+	int InputNameError = 0;
+
 
 
 };

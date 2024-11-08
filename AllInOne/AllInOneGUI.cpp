@@ -446,12 +446,20 @@ void AllInOne::RenderSettings() {
 
                 bool Indicator = false;
 
+				bool IncorrectName = false;
+
                 if (PresetName != "") {
 					Indicator = true;
                 }
 
                 if (!Indicator) {
 					ImGui::Text("Name is empty");
+                }
+
+                if (IncorrectName) {
+                    ImGui::TextColored(ImVec4{ 1, 0, 0, 1 }, "Invalid Name:");
+                    ImGui::SameLine();
+                    ImGui::TextColored(ImVec4{ 1, 1, 0, 1 }, "( 20 Chars ) [ a-z A-z _.-^! ]");
                 }
 
 				// the code above will not get me in 
@@ -461,6 +469,29 @@ void AllInOne::RenderSettings() {
                 if (ImGui::Button("Save")) { // i still dont know why tf this is in a if loop 
 
                     // 12 mg of fent incoming
+
+                    if (InputNameError == 1) {
+						IncorrectName = true;
+                    }
+
+                    if (InputNameError == 2) {
+                        ImGui::TextColored(ImVec4{ 1, 1, 0, 1 }, "Invalid Name: ( 20 Chars ) [ a-z A-z _.-^! ]");
+                    }
+                    else if (InputNameError == 3) {
+                        ImGui::TextColored(ImVec4{ 1, 1, 0, 1 }, "Name already exists!");
+                    }
+
+                    const char* reg = R"(^[a-zA-Z0-9_.^!-]+$)";
+                    std::regex pattern(reg);
+                    if (std::regex_match(PresetName, pattern) && PresetName.length() <= 20) {
+                        cameras.push_back(tempCamera);
+                        PresetName.clear();
+                        settingsChanged = true;
+                        InputNameError = 0;
+                        /*CreatePreset = false;*/
+						IncorrectName = false;
+                    }
+                    else InputNameError = 1;
 
                     if (PresetName == "") {
 						cvarManager->log("Name is empty");
