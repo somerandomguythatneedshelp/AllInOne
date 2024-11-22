@@ -7,15 +7,10 @@
 #include "bakkesmod/wrappers/GameWrapper.h"
 #include "bakkesmod/wrappers/GameEvent/ServerWrapper.h"
 #include "bakkesmod/wrappers/GameEvent/GameEventWrapper.h"
-#include <iomanip>
 #include <fstream>
 #include <iostream>
-#include <Windows.h>
 #include <regex>
-#include <ctime>
 #include <sstream>
-#include <filesystem>
-#include <algorithm>
 #include "bakkesmod/wrappers/GuiManagerWrapper.h"
 #include "IMGUI/imgui_internal.h"
 
@@ -50,7 +45,6 @@ class AllInOne: public BakkesMod::Plugin::BakkesModPlugin, public BakkesMod::Plu
 	//Boilerplate
 	virtual void onLoad();
 	virtual void onUnload();
-	virtual void Tick();
 
 	void RenderSettings() override;
 	std::string GetPluginName() override;
@@ -74,10 +68,8 @@ class AllInOne: public BakkesMod::Plugin::BakkesModPlugin, public BakkesMod::Plu
 	unsigned int total = 0;
 
 	void StartGame();
-	void onStatTickerMessage(ServerWrapper caller, void* params, std::string eventname);
 	bool GetBoolCvar(const std::string name, const bool fallback = false);
 	float GetFloatCvar(const std::string name, const float fallback = 1);
-	void UpdateTotalDemos();
 
 	// Render
 	ImFont* font;
@@ -251,6 +243,23 @@ public:
 	int InputNameError = 0;
 
 
+public:
+	void LoadFont() {
+		// Load font
+		auto gui = gameWrapper->GetGUIManager();
+		auto [res, font] = gui.LoadFont(FONT_NAME, FONT_FILE, FONT_SIZE);
+
+		if (res == 0) {
+			cvarManager->log("Failed to load the font!");
+		}
+		else if (res == 1) {
+			cvarManager->log("The font will be loaded");
+		}
+		else if (res == 2 && font) {
+			this->font = font;
+		}
+
+	}
 
 };
 

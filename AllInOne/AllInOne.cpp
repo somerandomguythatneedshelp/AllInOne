@@ -1,5 +1,10 @@
 // if you are seeing this, thank you for reading :)
 
+
+// This code is very shit, please believe 
+// me, there is no other reposotory on gitub
+// with shitter code than this, i dont even
+// know what half of the code does
 #include "pch.h"
 #include "AllInOne.h"
 
@@ -18,7 +23,6 @@ void AllInOne::onLoad()
 	hookAll();
 	canLeaveMatch = false;
 
-
 	// Register cVars
 	cvarManager->registerCvar("aio_enabled", "1");
 	cvarManager->registerCvar("aio_display_game", "1");
@@ -27,26 +31,10 @@ void AllInOne::onLoad()
 	cvarManager->registerCvar("aio_background_opacity", "0.5");
 	cvarManager->registerCvar("aio_overlay_height", "0.5");
 
-	// Hook events
-	gameWrapper->HookEventWithCaller<ServerWrapper>("Function TAGame.GFxHUD_TA.HandleStatTickerMessage", std::bind(&AllInOne::onStatTickerMessage, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	gameWrapper->HookEvent("Function GameEvent_Soccar_TA.WaitingForPlayers.BeginState", std::bind(&AllInOne::StartGame, this));
 	gameWrapper->HookEvent("Function Engine.PlayerInput.InitInputSystem", std::bind(&AllInOne::StartGame, this));
 
-	UpdateTotalDemos();
-
-	// Load font
-	auto gui = gameWrapper->GetGUIManager();
-	auto [res, font] = gui.LoadFont(FONT_NAME, FONT_FILE, FONT_SIZE);
-
-	if (res == 0) {
-		cvarManager->log("Failed to load the font!");
-	}
-	else if (res == 1) {
-		cvarManager->log("The font will be loaded");
-	}
-	else if (res == 2 && font) {
-		this->font = font;
-	}
+	LoadFont(); // this is for Tournament Addon
 
 	// Start rendering overlay
 	gameWrapper->SetTimeout(std::bind(&AllInOne::StartGame, this), 0.1f);
@@ -81,11 +69,6 @@ std::string AllInOne::formatFloat(float value, int precision) {
 	return out.str();
 }
 
-void AllInOne::onStatTickerMessage(ServerWrapper caller, void* params, std::string eventname)
-{
-	// not needed
-}
-
 void AllInOne::StartGame()
 {
 	StartRender();
@@ -103,19 +86,6 @@ float AllInOne::GetFloatCvar(const std::string name, const float fallback)
 	CVarWrapper cvar = cvarManager->getCvar(name);
 	if (cvar) return cvar.getFloatValue();
 	else return fallback;
-}
-
-void AllInOne::UpdateTotalDemos()
-{
-	std::vector<CareerStatsWrapper::StatValue> stats = CareerStatsWrapper().GetStatValues();
-	for (size_t i = 0; i < stats.size(); i++)
-	{
-		CareerStatsWrapper::StatValue stat = stats[i];
-		if (stat.stat_name == "Demolish") {
-			total = stat.ranked + stat.unranked + stat.private_;
-			return;
-		}
-	}
 }
 
 /* skip replays */
@@ -316,24 +286,6 @@ void AllInOne::registerCvars()
 
 }
 
-void AllInOne::Tick() {
-
-	/*if (timezoneChanged)
-	{
-		CVarWrapper timezoneCvar = cvarManager->getCvar("aio_selected_timezone");
-		if (timezoneCvar)
-		{
-			timezoneCvar.setValue(selectedTimezone);
-		}
-		timezoneChanged = false;*/
-
-		// If you really need to stop and start rendering, do it here
-		// StopRender();
-		// StartRender();
-
-		// fuck off chatgpt i aint doing that
-	//}
-}
 
 void AllInOne::hookAll()
 {
@@ -492,22 +444,25 @@ void AllInOne::onMatchEnded()
 void AllInOne::onForfeitChanged()
 {
 	ServerWrapper server = gameWrapper->GetCurrentGameState();
-	if (server.IsNull()) return;
-	if (server.GetbCanVoteToForfeit()) return;
+	if (server.IsNull() || server.GetbCanVoteToForfeit()) return;
+
 	canLeaveMatch = true;
 
 	if (!*enabled) return;
 
 	GameSettingPlaylistWrapper playlist = server.GetPlaylist();
 	int playlistId = playlist.GetPlaylistId();
-	if (!shouldLeave(playlistId)) return;
-	if (playlist.GetbRanked() && *delayLeaveEnabled) return;
 
-	bool shouldQ = shouldQueue(playlistId);
-	if (isPartyLeader() && shouldQ) return;
+	// Combine checks for leaving the match into a single conditional
+	if (!shouldLeave(playlistId) || (playlist.GetbRanked() && *delayLeaveEnabled)) return;
+
+	// Check if the party leader should queue
+	if (isPartyLeader() && shouldQueue(playlistId)) return;
 
 	exitGame();
-	if (shouldQ)
+
+	// Only queue if shouldQueue returns true
+	if (shouldQueue(playlistId))
 	{
 		gameWrapper->SetTimeout([this](GameWrapper* gw)
 			{

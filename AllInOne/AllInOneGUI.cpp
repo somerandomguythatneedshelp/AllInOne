@@ -193,24 +193,24 @@ void AllInOne::RenderSettings() {
 
     //if (ImGui::CollapsingHeader("Presets")) {
     //    std::fstream inputFile(gameWrapper->GetDataFolder() / "cameras_rlcs.data", std::ios::in | std::ios::out | std::ios::app); // where the camera settings are going to be shown in settings
-
+    //
     //    ImGui::BeginTabBar("Tab");
-
+    //
     //    if (ImGui::BeginTabItem("Camera")) {
-
-
-
-
+    //
+    //
+    //
+    //
     //        if (ImGui::Button("Create a preset")) {
     //            CreatePresetMenu = true;
     //            EditPresetMenu = false;
     //            RemovePresetMenu = false;
-
+    //
     //            // why tf is this here
-
+    //
     //            gameWrapper->Execute([this](GameWrapper* gw) {
     //                ProfileCameraSettings settings = gameWrapper->GetSettings().GetCameraSettings();
-
+    //
     //                tempCamera.FOV = settings.FOV;
     //                tempCamera.Distance = settings.Distance;
     //                tempCamera.Angle = settings.Pitch;
@@ -218,42 +218,42 @@ void AllInOne::RenderSettings() {
     //                tempCamera.Stiffness = settings.Stiffness;
     //                tempCamera.SwivelSpeed = settings.SwivelSpeed;
     //                tempCamera.TransitionSpeed = settings.TransitionSpeed;
-
+    //
     //                });
     //        }
-
+    //
     //        ImGui::SameLine();
-
+    //
     //        if (ImGui::Button("Edit an existing preset")) {
     //            CreatePresetMenu = false;
     //            EditPresetMenu = true;
     //            RemovePresetMenu = false;
     //        }
-
+    //
     //        ImGui::SameLine();
-
+    //
     //        if (ImGui::Button("Remove a preset")) {
     //            CreatePresetMenu = false;
     //            EditPresetMenu = false;
     //            RemovePresetMenu = true;
     //        }
-
-
-
-
+    //
+    //
+    //
+    //
     //        if (CreatePresetMenu) {
     //            ImGui::Text("Create a Preset");
-
+    //
     //            static ImGuiSliderFlags flags = ImGuiSliderFlags_None;
-
+    //
     //            if (InputNameError == 1) {
     //                ImGui::TextColored(ImVec4{ 1, 0, 0, 1 }, "Invalid Name:");
     //                ImGui::SameLine();
     //                ImGui::TextColored(ImVec4{ 1, 1, 0, 1 }, "( 20 Chars ) [ a-z A-z _.-^! ]");
     //            }
-
+    //
     //            // sliders that clamp to ingame values
-
+    //
     //            char PresetNameBuffer[256] = "";
     //            strncpy(PresetNameBuffer, PresetName.c_str(), sizeof(PresetNameBuffer) - 1);
     //            PresetNameBuffer[sizeof(PresetNameBuffer) - 1] = '\0';
@@ -262,10 +262,10 @@ void AllInOne::RenderSettings() {
     //                PresetName = PresetNameBuffer;
     //                tempCamera.name = PresetName;
     //            }
-
+    //
     //            // the code below, some might call bad, some might call good, but idk what to call it
-
-
+    //
+    //
     //            ImGui::SliderInt("FOV", &tempCamera.FOV, 60, 110);
     //            if (ImGui::SliderInt("Distance", &tempCamera.Distance, 100, 400)) {
     //                tempCamera.Distance = (tempCamera.Distance / 10) * 10; // clamp between 10
@@ -283,7 +283,7 @@ void AllInOne::RenderSettings() {
     //            if (ImGui::SliderFloat("TranitionSpeed", &tempCamera.TransitionSpeed, 1.0f, 2.0f, "%.2f")) {
     //                tempCamera.TransitionSpeed = roundf(tempCamera.TransitionSpeed * 10.0f) / 10.0f;
     //            }
-
+    //
     //            CopiedCode = tempCamera.name + "#" +
     //                std::to_string(tempCamera.FOV) + "#" +
     //                std::to_string(tempCamera.Distance) + "#" +
@@ -292,7 +292,7 @@ void AllInOne::RenderSettings() {
     //                formatFloat(tempCamera.Stiffness, 2) + "#" +
     //                formatFloat(tempCamera.SwivelSpeed, 1) + "#" +
     //                formatFloat(tempCamera.TransitionSpeed, 1);
-
+    //
     //            CodeName = tempCamera.name + " " +
     //                std::to_string(tempCamera.FOV) + " " +
     //                std::to_string(tempCamera.Height) + " " +
@@ -301,45 +301,43 @@ void AllInOne::RenderSettings() {
     //                formatFloat(tempCamera.TransitionSpeed, 1) + " " +
     //                std::to_string(tempCamera.Distance) + " " +
     //                formatFloat(tempCamera.SwivelSpeed, 1);
-//
-//
+    //
+    //
     //            if (ImGui::Button("Copy code")) { // TODO: finish this horse shit
     //                clipboardxx::clipboard clipboard;
-
+    //
     //                clipboard << CopiedCode;
-
+    //
     //                std::string paste_text; // wtf is the point of this var, it still works tho so im not complaining
     //                clipboard >> paste_text;
     //            }
-
+    //
     //            if (ImGui::Button("Add To Presets")) {
-
+    //
     //                if (!inputFile.is_open()) {
     //                    std::cerr << "Error opening file!" << std::endl;
     //                    return; // or handle the error appropriately
     //                }
-
+    //
     //                // Append new data to the file
     //                inputFile << CodeName << std::endl;
-
+    //
     //                // Close the file
     //                inputFile.close();
-
+    //
     //                LOG("New data appended to the file.");
-
-
     //            }
     //        }
-
+    //
     //        if (EditPresetMenu) {
     //            ImGui::Text("Edit Preset Menu");
-
+    //
     //            std::vector<std::string> presets = ReadPresetsFromFile(gameWrapper->GetDataFolder() / "cameras_rlcs.data");
-
+    //
     //            for (const auto& preset : presets) {
     //                // Extract the first word (preset name)
     //                std::string presetName = preset.substr(0, preset.find(' '));
-
+    //
     //                // Create a button for each preset
     //                if (ImGui::Button(presetName.c_str(), ImVec2(150, 0))) {
     //                    // TODO: Implement edit functionality
@@ -347,18 +345,15 @@ void AllInOne::RenderSettings() {
     //                    LOG("Editing preset: {}", presetName);
     //                }
     //            }
-
     //        }
-
+    //
     //        // Remove Preset Menu
     //        if (RemovePresetMenu) {
     //            ImGui::Text("Remove Preset Menu");
     //            // Add code for removing presets
     //            // ...
     //        }
-
     //        ImGui::EndTabItem();
-
     //    }
     //    if (ImGui::BeginTabItem("Controls")) {
     //        ImGui::TextUnformatted("not yet");
@@ -370,18 +365,15 @@ void AllInOne::RenderSettings() {
     //        ImGui::TextUnformatted("no");
     //        ImGui::EndTabItem();
     //    }
-
     //    ImGui::EndTabBar();
     //}
 
     if (ImGui::CollapsingHeader("Presets")) {
 		std::fstream inputFile(gameWrapper->GetDataFolder() / "cameras_rlcs.data", std::ios::in | std::ios::out | std::ios::app); // where the camera settings are going to be shown in settings
-       
 
         ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
         if (ImGui::BeginTabBar("MyTabBar", tab_bar_flags))
         {
-
             if (ImGui::BeginTabItem("Create a preset"))
             {
                 ImGui::Text("Create a Preset");
@@ -410,7 +402,6 @@ void AllInOne::RenderSettings() {
                 // it does infact work the code below
                 // dont know why or how, but im not complaining
 
-
                 static bool isInitialized = false;
 
                 if (!isInitialized) {
@@ -424,6 +415,7 @@ void AllInOne::RenderSettings() {
                     isInitialized = true;
                 }
 
+                // 2 months later im still wondering why and how this shit works
                 
 
                 ImGui::SliderInt("FOV", &tempCamera.FOV, 60, 110);
@@ -433,7 +425,7 @@ void AllInOne::RenderSettings() {
                 if (ImGui::SliderInt("Height", &tempCamera.Height, 40, 200)) {
                     tempCamera.Height = (tempCamera.Height / 10) * 10; // clamp between 10
                 }
-                ImGui::SliderInt("Angle", &tempCamera.Angle, -15, 0);
+                ImGui::SliderInt("Angle", &tempCamera.Angle, -15, 0); // its called pitch in the header file 
                 if (ImGui::SliderFloat("Stiffness", &tempCamera.Stiffness, 0.0f, 1.0f, "%.2f")) {
                     tempCamera.Stiffness = roundf(tempCamera.Stiffness * 20) / 20;
                 }
@@ -445,7 +437,6 @@ void AllInOne::RenderSettings() {
                 }
 
                 bool Indicator = false;
-
 				bool IncorrectName = false;
 
                 if (PresetName != "") {
@@ -485,7 +476,7 @@ void AllInOne::RenderSettings() {
                     std::regex pattern(reg);
                     if (std::regex_match(PresetName, pattern) && PresetName.length() <= 20) {
                         cameras.push_back(tempCamera);
-                        PresetName.clear();
+                        //PresetName.clear(); who tf made this code
                         settingsChanged = true;
                         InputNameError = 0;
                         /*CreatePreset = false;*/
@@ -494,7 +485,7 @@ void AllInOne::RenderSettings() {
                     else InputNameError = 1;
 
                     if (PresetName == "") {
-						cvarManager->log("Name is empty");
+                        cvarManager->log("Name is empty");
                     }
                     else {
 
@@ -513,7 +504,7 @@ void AllInOne::RenderSettings() {
 
                         if (!inputFile.is_open()) {
                             std::cerr << "Error opening file!" << std::endl;
-                            return; // or handle the error appropriately
+                            return; // additional error handling goes here
                         }
 
                         // Append new data to the file
@@ -527,7 +518,7 @@ void AllInOne::RenderSettings() {
                         // we SHOULD be okay
 
                     }
-                    // shut up game crashes when i use gaurd clauses
+
                 }
                 ImGui::EndTabItem();
             }
@@ -563,6 +554,7 @@ void AllInOne::RemovePreset(const std::filesystem::path& filePath, const std::st
     std::ifstream fileIn(filePath);
     if (!fileIn.is_open()) {
         // very good error handling
+        cvarManager->log("File could not be opened");
         return;
     }
 
@@ -770,7 +762,7 @@ bool AllInOne::ShouldBlockInput() {
     return ImGui::GetIO().WantCaptureMouse || ImGui::GetIO().WantCaptureKeyboard;
 }
 
-bool AllInOne::IsActiveOverlay() {
+bool AllInOne::IsActiveOverlay() { // overrides bakkesmod func
     return false;
 }
 
