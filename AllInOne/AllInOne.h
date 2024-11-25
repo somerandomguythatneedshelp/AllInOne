@@ -201,7 +201,6 @@ public:
 	int oldSelected = 0;
 	int selected = 0;
 	bool settingsChanged = false;
-	std::string CopiedCode; 
 	std::string CodeName; // these 2 vars are different i swear 
 	std::string PresetName;
 	CP_CameraSettings tempCamera;
